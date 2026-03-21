@@ -1,15 +1,156 @@
 <% layout('layouts/boilerplate') %>
 
-<h3><%= listing.title %></h3>
+<div class="container mt-4">
 
-<img src="<%= listing.image %>" width="400">
+  <!-- 🔥 LISTING DETAILS -->
+  <div class="card shadow mb-4 p-3">
+    <h3 class="mb-3"><%= listing.title %></h3>
 
-<p><%= listing.description %></p>
-<p>₹ <%= listing.price %></p>
-<p><%= listing.location %>, <%= listing.country %></p>
+    <img src="<%= listing.image %>" class="img-fluid rounded mb-3" style="max-height:400px; object-fit:cover;">
 
-<a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">Edit</a>
+    <p><%= listing.description %></p>
 
-<form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-  <button class="btn btn-danger mt-2">Delete</button>
-</form>
+    <h5 class="text-success">₹ <%= listing.price %></h5>
+    <p class="text-muted"><%= listing.location %>, <%= listing.country %></p>
+
+    <div class="mt-2">
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">Edit</a>
+
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+        <button class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🔥 ADD REVIEW -->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div class="card shadow p-4 mb-4">
+        <h5 class="mb-3 text-center">Add Review</h5>
+
+        <form method="POST" action="/listings/<%= listing._id %>/reviews">
+
+         <div class="mb-3">
+  <label class="form-label">Rating</label>
+
+  <div id="star-container" style="font-size:25px; cursor:pointer;">
+    <span data-value="1">☆</span>
+    <span data-value="2">☆</span>
+    <span data-value="3">☆</span>
+    <span data-value="4">☆</span>
+    <span data-value="5">☆</span>
+  </div>
+
+  <!-- 🔥 hidden input -->
+  <input type="hidden" name="review[rating]" id="rating-input" required>
+</div>
+
+          <div class="mb-3">
+            <label class="form-label">Comment</label>
+            <textarea name="review[comment]" class="form-control" rows="3" placeholder="Write your review..." required></textarea>
+          </div>
+
+          <button class="btn btn-success w-100">Submit</button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🔥 ALL REVIEWS -->
+  <h5 class="mb-4">All Reviews</h5>
+
+ <% if(listing.reviews.length === 0) { %>
+  <div class="text-center my-4">
+    <div class="d-inline-block px-4 py-2 shadow-sm" style="
+      background:#f8f9fa;
+      border-radius:20px;
+      font-size:14px;
+      color:#666;
+    ">
+      No reviews yet 😔
+    </div>
+  </div>
+<% } %>
+
+  <div class="row justify-content-center">
+
+    <% for(let review of listing.reviews) { %>
+
+      <div class="col-md-5 mb-4">
+        <div class="card border-0 shadow-sm p-3 h-100" style="border-radius:15px;">
+
+          <!-- 👤 PROFILE + NAME -->
+          <div class="d-flex align-items-center mb-2">
+
+            <div style="
+              width:40px;
+              height:40px;
+              border-radius:50%;
+              background:#6c63ff;
+              color:white;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-weight:bold;
+              margin-right:10px;
+            ">
+              <%= review.author?.username?.charAt(0).toUpperCase() || "A" %>
+            </div>
+
+            <div>
+              <div style="font-weight:500;">
+                <%= review.author?.username || "Anonymous" %>
+              </div>
+
+              <!-- ⭐ STARS -->
+              <div>
+                <% for(let i = 1; i <= 5; i++) { %>
+                  <% if(i <= review.rating) { %>
+                    <span style="color:#f4c150;">★</span>
+                  <% } else { %>
+                    <span style="color:#ddd;">★</span>
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 💬 COMMENT -->
+          <p class="text-muted mb-0">
+            <%= review.comment %>
+          </p>
+
+        </div>
+      </div>
+
+    <% } %>
+
+  </div>
+
+</div>
+
+<script>
+  const stars = document.querySelectorAll("#star-container span");
+  const input = document.getElementById("rating-input");
+
+  stars.forEach((star) => {
+    star.addEventListener("click", () => {
+      const value = star.getAttribute("data-value");
+      input.value = value;
+
+      stars.forEach((s, index) => {
+        if (index < value) {
+          s.textContent = "★";
+          s.style.color = "gold";
+        } else {
+          s.textContent = "☆";
+          s.style.color = "black";
+        }
+      });
+    });
+  });
+</script>
