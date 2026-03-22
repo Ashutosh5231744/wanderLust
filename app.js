@@ -85,7 +85,21 @@ app.get("/", (req, res) => {
 
 // INDEX
 app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
+  let { search } = req.query;
+
+  let allListings;
+
+  if (search) {
+    allListings = await Listing.find({
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } },
+      ],
+    });
+  } else {
+    allListings = await Listing.find({});
+  }
+
   res.render("listings/index.ejs", { allListings });
 });
 

@@ -3,6 +3,18 @@
 <div class="container mt-4">
   <h3 class="mb-4">All Listings</h3>
 
+  <form action="/listings" method="GET" class="mb-4 d-flex">
+  <input 
+    type="text" 
+    name="search" 
+    placeholder="Search by location or title..." 
+    class="form-control me-2"
+  >
+  <button class="btn btn-dark">Search</button>
+</form>
+<% if(allListings.length === 0) { %>
+  <p>No results found 😔</p>
+<% } %>
   <div class="row">
     <% for(let listing of allListings) { %>
       <div class="col-md-4 mb-4">
