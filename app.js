@@ -1,3 +1,6 @@
+const multer = require("multer");
+const { storage } = require("./cloudConfig");
+const upload = multer({ storage });
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -105,13 +108,29 @@ app.get("/listings/:id", async (req, res) => {
   res.render("listings/show.ejs", { listing });
 });
 
-// CREATE
-app.post("/listings", isLoggedIn, async (req, res) => {
-  const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id;
 
-  await newListing.save();
-  res.redirect("/listings");
+// CREATE (🔥 IMAGE UPLOAD ENABLED)
+app.post("/listings", isLoggedIn, async (req, res) => {
+  try {
+    const newListing = new Listing({
+      title: req.body.listing.title,
+      description: req.body.listing.description,
+      price: req.body.listing.price,
+      location: req.body.listing.location,
+      country: req.body.listing.country,
+
+      // 🔥 YE LINE MISSING THI
+      image: req.body.listing.image,
+
+      owner: req.user._id,
+    });
+
+    await newListing.save();
+    res.redirect("/listings");
+
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // EDIT
