@@ -80,7 +80,7 @@ async function isOwner(req, res, next) {
 
 // Home
 app.get("/", (req, res) => {
-  res.redirect("/listings");
+  res.render("home.ejs");
 });
 
 // INDEX

@@ -1,40 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Wanderlust</title>
+  <meta charset="UTF-8">
+  <title>WanderLust</title>
 
-  <!-- Bootstrap -->
+  <!-- ✅ Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- 🔥 CUSTOM STYLE -->
+  <style>
+  body {
+    background-color: #f5f6fa;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .navbar {
+    padding: 22px 40px;
+  }
+
+  .navbar-brand {
+    color: #6c63ff !important;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .dropdown-menu {
+    border-radius: 12px;
+  }
+
+  /* 🔥 HERO SECTION */
+  .hero-container {
+    position: relative;
+    height: 85vh;
+    margin-top: 30px;
+  }
+
+  /* 🔥 BACKGROUND IMAGE */
+  .hero-image {
+    width: 78%;
+    height: 100%;
+    margin-left: auto;
+    border-radius: 30px;
+
+    background-image: 
+      linear-gradient(120deg, rgba(255,255,255,0.6), rgba(255,255,255,0.1)),
+      url('https://media.architecturaldigest.in/wp-content/uploads/2019/06/mumbai-apartment-mumbai-flat-Space-Dynamix.jpg');
+
+    background-size: cover;
+    background-position: center;
+
+    box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+  }
+
+  /* 🔥 WHITE CARD */
+  .hero-card {
+    position: absolute;
+    top: 50%;
+    left: 80px;
+    transform: translateY(-50%);
+
+    width: 420px;
+    padding: 40px;
+    border-radius: 25px;
+
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+
+  /* 🔥 HOVER */
+  .hero-card:hover {
+    transform: translateY(-50%) translateY(-10px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  }
+
+  /* 🔥 INPUTS */
+  .hero-card input {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .hero-card input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 2px rgba(108,99,255,0.2);
+  }
+
+  /* 🔥 BUTTON */
+  .hero-card button {
+    background: #6c63ff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 500;
+  }
+
+  .hero-card button:hover {
+    background: #574bdb;
+  }
+
+</style>
 </head>
 
 <body>
 
-<!-- 🔥 Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
+<!-- 🔥 NAVBAR -->
+<nav class="navbar navbar-light bg-white shadow-sm px-4">
 
-    <a class="navbar-brand" href="/listings">Wanderlust</a>
+  <a class="navbar-brand fw-bold d-flex align-items-center" href="/listings">
+    <span style="
+      width:42px;
+      height:42px;
+      background:#ff385c;
+      color:white;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      margin-right:8px;
+      font-size:18px;
+    ">W</span>
+    WanderLust
+  </a>
 
-    <div>
-      <!-- Always visible -->
-      <a class="btn btn-warning me-2" href="/listings/new">Add Listing</a>
+  <div class="dropdown">
+    <button class="btn btn-light border rounded-pill px-3 py-2 shadow-sm" data-bs-toggle="dropdown">
+      ☰
+    </button>
 
-      <!-- 🔥 Dynamic Auth Buttons -->
-      <% if(currUser) { %>
-        <a href="/logout" class="btn btn-danger">Logout</a>
+    <ul class="dropdown-menu dropdown-menu-end shadow">
+      <% if(!currUser) { %>
+        <li><a class="dropdown-item" href="/login">Login</a></li>
+        <li><a class="dropdown-item" href="/signup">Sign up</a></li>
       <% } else { %>
-        <a href="/login" class="btn btn-light me-2">Login</a>
-        <a href="/signup" class="btn btn-success">Signup</a>
+        <li class="dropdown-item-text fw-bold">👋 <%= currUser.username %></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="/listings/new">Add Listing</a></li>
+        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
       <% } %>
-    </div>
-
+    </ul>
   </div>
+
 </nav>
 
-<!-- Content -->
+<!-- 🔥 MAIN CONTENT -->
 <div class="container mt-4">
   <%- body %>
 </div>
+
+<!-- ✅ Bootstrap JS (IMPORTANT for dropdown) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

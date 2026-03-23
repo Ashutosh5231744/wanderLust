@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="hero-container">
+
+  <!-- IMAGE -->
+  <div class="hero-image"></div>
+
+  <!-- CARD -->
+  <div class="hero-card">
+
+    <h3 style="font-weight:600;">
+      Discover your next escape ✨
+    </h3>
+
+    <p style="color:#777; font-size:14px;">
+      Handpicked places curated just for you
+    </p>
+
+    <form action="/listings" method="GET">
+
+      <!-- LOCATION -->
+      <div class="mb-3">
+        <label>Location</label>
+        <input type="text" name="search" class="form-control" placeholder="Where do you want to go?">
+      </div>
+
+      <!-- DATES -->
+      <div class="d-flex gap-2 mb-3">
+        <input type="date" class="form-control">
+        <input type="date" class="form-control">
+      </div>
+
+      <!-- GUESTS -->
+      <div class="mb-3">
+        <input type="number" class="form-control" placeholder="Guests">
+      </div>
+
+      <button class="w-100 mt-2">Search</button>
+
+    </form>
+
+  </div>
+
+</div>
